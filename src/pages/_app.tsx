@@ -10,6 +10,9 @@ import { config } from '../wagmi';
 import Head from "next/head";
 import PageHeader from "../components/page-header";
 import GlobalScan from "../components/page-halo-animation";
+import CyberBackground from "../components/cyber-background";
+import CyberAnimations from "../components/cyber-animations";
+import CenterGuang from "../components/center-guang";
 
 const client = new QueryClient();
 
@@ -27,9 +30,15 @@ function MyApp({ Component, pageProps }: AppProps) {
           <QueryClientProvider client={client}>
               <RainbowKitProvider>
                   <div className="p-x-2 flex flex-col min-h-screen">
-                      <PageHeader/>
-                      <div className="flex-1">
-                          <Component {...pageProps} />
+                      <CyberBackground/>
+                      <div className={"fixed w-[1000px] h-[1000px] bottom-0 right-0"}>
+                          <CenterGuang/>
+                      </div>
+                      <div className="relative z-10 flex-1">
+                          <PageHeader/>
+                          <div className="flex-1">
+                              <Component {...pageProps} />
+                          </div>
                       </div>
                       <footer className={"flex py-4 border-t-1 border-gray-200 text-gray-100 justify-center items-center"}>
                           <a href="https://rainbow.me" rel="noopener noreferrer" target="_blank">
@@ -37,13 +46,9 @@ function MyApp({ Component, pageProps }: AppProps) {
                           </a>
                       </footer>
                       {/*扫描线背景层 */}
-                      <GlobalScan/>
-                      {/*<div className="absolute inset-0 z-10000 pointer-events-none">*/}
-                      {/*    /!* 扫描线动画 *!/*/}
-                      {/*    <div className="absolute inset-0 bg-gradient-to-b from-transparent via-cyber-neon-400/10 to-transparent animate-scan-line h-px" />*/}
-                      {/*    /!* 网格背景 *!/*/}
-                      {/*    <div className="absolute inset-0 opacity-5 grid-background" />*/}
-                      {/*</div>*/}
+                      {/*<GlobalScan/>*/}
+                      {/* 第3层：轻量动画（CSS） */}
+                      <CyberAnimations />
                   </div>
               </RainbowKitProvider>
           </QueryClientProvider>
