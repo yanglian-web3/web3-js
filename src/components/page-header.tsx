@@ -47,7 +47,7 @@ const NavLink = ({ href, children }: { href: string; children: React.ReactNode }
  */
 export default function PageHeader() {
     return <>
-        <header className="sticky top-0 z-50 container mx-auto flex justify-between items-center w-full py-4 px-6 backdrop-blur-xl bg-cyber-dark-400/90 border-b border-cyber-neon/20">
+        <header className="sticky top-0 z-50 mx-auto flex justify-between items-center w-full py-4 px-6 backdrop-blur-xl bg-cyber-dark-400/90 border-b border-cyber-neon/20">
             {/* 头部背景光晕 */}
             <div className="absolute inset-0 bg-gradient-to-b from-cyber-neon-400/5 via-transparent to-transparent -z-10" />
             <div className="max-w-7xl w-full mx-auto flex justify-between items-center">
