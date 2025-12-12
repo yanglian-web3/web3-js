@@ -9,6 +9,7 @@ import { RainbowKitProvider } from '@rainbow-me/rainbowkit';
 import { config } from '../wagmi';
 import Head from "next/head";
 import PageHeader from "../components/page-header";
+import GlobalScan from "../components/page-halo-animation";
 
 const client = new QueryClient();
 
@@ -36,12 +37,13 @@ function MyApp({ Component, pageProps }: AppProps) {
                           </a>
                       </footer>
                       {/*扫描线背景层 */}
-                      <div className="absolute inset-0 z-10000 pointer-events-none">
-                          {/* 扫描线动画 */}
-                          <div className="absolute inset-0 bg-gradient-to-b from-transparent via-cyber-neon-400/10 to-transparent animate-scan-line h-px" />
-                          {/* 网格背景 */}
-                          <div className="absolute inset-0 opacity-5 grid-background" />
-                      </div>
+                      <GlobalScan/>
+                      {/*<div className="absolute inset-0 z-10000 pointer-events-none">*/}
+                      {/*    /!* 扫描线动画 *!/*/}
+                      {/*    <div className="absolute inset-0 bg-gradient-to-b from-transparent via-cyber-neon-400/10 to-transparent animate-scan-line h-px" />*/}
+                      {/*    /!* 网格背景 *!/*/}
+                      {/*    <div className="absolute inset-0 opacity-5 grid-background" />*/}
+                      {/*</div>*/}
                   </div>
               </RainbowKitProvider>
           </QueryClientProvider>
