@@ -8,7 +8,7 @@ import { RainbowKitProvider } from '@rainbow-me/rainbowkit';
 
 import { config } from '../wagmi';
 import Head from "next/head";
-import PageHeader from "../components/page-header";
+import PageHeader from "../components/page-header/page-header";
 import PageBackground from "../components/page-background";
 import {cyberpunkTheme} from "../../rainbowkit-theme";
 
