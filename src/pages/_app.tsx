@@ -9,7 +9,7 @@ import { RainbowKitProvider } from '@rainbow-me/rainbowkit';
 import { config } from '../wagmi';
 import Head from "next/head";
 import PageHeader from "../components/page-header";
-import CyberBackground from "../components/cyber-background";
+import PageBackground from "../components/page-background";
 
 const client = new QueryClient();
 
@@ -27,7 +27,7 @@ function MyApp({ Component, pageProps }: AppProps) {
           <QueryClientProvider client={client}>
               <RainbowKitProvider>
                   <div className="p-x-2 flex flex-col min-h-screen">
-                      <CyberBackground/>
+                      <PageBackground/>
                       <div className="z-10 flex-1 flex flex-col">
                           <PageHeader/>
                           <div className="flex-1">

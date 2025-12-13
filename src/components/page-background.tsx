@@ -1,5 +1,5 @@
-// components/cyber-background.tsx
-export default function CyberBackground() {
+// components/page-background.tsx
+export default function PageBackground() {
     return (
         <svg className="fixed inset-0 pointer-events-none z-0" width="100%" height="100%">
             <defs>
