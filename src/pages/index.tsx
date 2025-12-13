@@ -1,6 +1,6 @@
 import type { NextPage } from 'next';
-import ScanStarAnimations from "../components/scan-star-animations";
-import PureSVGHalo from "../components/pure-svg-halo";
+import ScanStarAnimations from "../components/dashboard/scan-star-animations";
+import PureSVGHalo from "../components/dashboard/pure-svg-halo";
 
 const Dashboard: NextPage = () => {
   return <>
