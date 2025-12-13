@@ -24,7 +24,7 @@ export default function NavMobileButton() {
      */
     const MenuLine = ({className}:{className?: string
 }) => {
-        return <span className={`h-0.5 w-full ${className}`} style={{
+        return <span className={`h-0.5 w-full transition-all duration-300 ${className}`} style={{
             // 渐变边框
             background: `linear-gradient(-90deg, #00ff9d, #9d00ff)`,
         }}/>
@@ -66,9 +66,12 @@ export default function NavMobileButton() {
                  }}
             />
             <div className="flex flex-col justify-around w-full h-full">
-                <MenuLine/>
-                <MenuLine/>
-                <MenuLine/>
+                <MenuLine className={`${menuIsOpen ? 'opacity-0' : 'opacity-1'}`}/>
+                <span className="relative h-0.5">
+                    <MenuLine className={`absolute left-0 top-0 ${menuIsOpen ? 'rotate-45' : ''}`}/>
+                    <MenuLine className={`absolute left-0 top-0 ${menuIsOpen ? '-rotate-45' : ''}`}/>
+                </span>
+                <MenuLine className={`${menuIsOpen ? 'opacity-0' : 'opacity-1'}`}/>
             </div>
         </button>
     </div>
