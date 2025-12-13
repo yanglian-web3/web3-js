@@ -179,8 +179,8 @@ export default function PureSVGHalo() {
             {[...Array(5)].map((_, i) => (
                 <circle
                     key={i}
-                    cx={centerX + Math.cos((i * 72) * Math.PI / 180) * 320}
-                    cy={centerY + Math.sin((i * 72) * Math.PI / 180) * 320}
+                    cx={centerX + Math.cos((i * 72) * Math.PI / 180) * (coreHoloSize - 30)}
+                    cy={centerY + Math.sin((i * 72) * Math.PI / 180) * (coreHoloSize - 30)}
                     r="10"
                     fill="url(#neon-gradient)"
                     opacity="0.3"
