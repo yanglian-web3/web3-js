@@ -1,8 +1,8 @@
 "use client"
 
 import Link from 'next/link';
-import { ConnectButton } from '@rainbow-me/rainbowkit';
 import { usePathname } from 'next/navigation';
+import CyberGradientConnectButton from "./cyber-gradient-connect-button";
 
 /**
  * tab 切换项 - 高对比度版
@@ -87,7 +87,7 @@ export default function PageHeader() {
                 {/* RainbowKit 连接按钮容器 */}
                 <div className="relative">
                     <div className="relative z-10">
-                        <ConnectButton />
+                        <CyberGradientConnectButton />
                     </div>
                     {/* 按钮背景光晕 */}
                     <div className="absolute -inset-2 bg-gradient-to-r from-cyber-neon-400/20 to-cyber-pink-400/20 blur-xl rounded-2xl opacity-0 hover:opacity-50 transition-opacity duration-300 -z-10" />
