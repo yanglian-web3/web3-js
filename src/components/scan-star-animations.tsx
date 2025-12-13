@@ -38,19 +38,6 @@ export default function ScanStarAnimations() {
                 />
             </div>
 
-            {/* 次扫描线 */}
-            <div className="fixed inset-0 pointer-events-none z-10 overflow-hidden">
-                <div
-                    className="absolute w-full h-[1px] bg-gradient-to-r from-transparent via-cyber-blue-400 to-transparent"
-                    style={{
-                        animation: 'scan-down 12s linear infinite reverse',
-                        top: '20%',
-                        animationDelay: '-4s',
-                        willChange: 'transform'
-                    }}
-                />
-            </div>
-
             {/* 动态粒子 */}
             <div className="fixed inset-0 pointer-events-none z-5">
                 {particles.map((particle) => (

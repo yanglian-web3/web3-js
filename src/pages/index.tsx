@@ -1,6 +1,6 @@
 import type { NextPage } from 'next';
 import ScanStarAnimations from "../components/scan-star-animations";
-import Halo from "../components/halo";
+import PureSVGHalo from "../components/pure-svg-halo";
 
 const Dashboard: NextPage = () => {
   return <>
@@ -9,7 +9,10 @@ const Dashboard: NextPage = () => {
 
     </main>
     {/*光晕*/}
-    <Halo/>
+    {/*<div className="fixed" style={{width: "50vw",height:"50vw", right: "8vw",bottom: "-15vw"}}>*/}
+    {/*  */}
+    {/*</div>*/}
+    <PureSVGHalo/>
     {/*底部模糊层 */}
     <div className="fixed inset-0 pointer-events-none z-30">
       <div className="absolute bottom-0 inset-x-0 h-96 bg-gradient-to-t from-cyber-pink-400/10 to-transparent" />

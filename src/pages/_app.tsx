@@ -28,7 +28,7 @@ function MyApp({ Component, pageProps }: AppProps) {
               <RainbowKitProvider>
                   <div className="p-x-2 flex flex-col min-h-screen">
                       <CyberBackground/>
-                      <div className="relative z-10 flex-1">
+                      <div className="z-10 flex-1 flex flex-col">
                           <PageHeader/>
                           <div className="flex-1">
                               <Component {...pageProps} />
