@@ -1,6 +1,7 @@
 "use client"
 
 import {useEffect, useState} from "react";
+import MenuLine from "./menu-line";
 
 export default function NavMobileButton() {
 
@@ -19,16 +20,6 @@ export default function NavMobileButton() {
     const toggleMenu = () => {
         setMenuIsOpen(!menuIsOpen)
     }
-    /**
-     * 菜单线条
-     */
-    const MenuLine = ({className}:{className?: string
-}) => {
-        return <span className={`h-0.5 w-full transition-all duration-300 ${className}`} style={{
-            // 渐变边框
-            background: `linear-gradient(-90deg, #00ff9d, #9d00ff)`,
-        }}/>
-    }
 
     // 非客户端不显示
     if (!isClient) {
@@ -43,7 +34,7 @@ export default function NavMobileButton() {
                 // 渐变边框
                 background: `
                     linear-gradient(#0a0a0f, #0a0a0f) padding-box,
-                    linear-gradient(135deg, #00ff9d, #00e0ff, #ff00ff) border-box
+                    linear-gradient(${menuIsOpen ? "-45deg" : "135deg"}, #00ff9d, #00e0ff, #ff00ff) border-box
                   `,
                 border: '2px solid transparent',
                 color: '#00ff9d',
@@ -66,12 +57,12 @@ export default function NavMobileButton() {
                  }}
             />
             <div className="flex flex-col justify-around w-full h-full">
-                <MenuLine className={`${menuIsOpen ? 'opacity-0' : 'opacity-1'}`}/>
+                <MenuLine className={`${menuIsOpen ? 'opacity-0' : 'opacity-100'}`}/>
                 <span className="relative h-0.5">
                     <MenuLine className={`absolute left-0 top-0 ${menuIsOpen ? 'rotate-45' : ''}`}/>
                     <MenuLine className={`absolute left-0 top-0 ${menuIsOpen ? '-rotate-45' : ''}`}/>
                 </span>
-                <MenuLine className={`${menuIsOpen ? 'opacity-0' : 'opacity-1'}`}/>
+                <MenuLine className={`${menuIsOpen ? 'opacity-0' : 'opacity-100'}`}/>
             </div>
         </button>
     </div>
