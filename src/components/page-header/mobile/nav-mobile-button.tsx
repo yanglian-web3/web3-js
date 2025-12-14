@@ -3,7 +3,7 @@
 import {useEffect, useState} from "react";
 import NavButtonLine from "./nav-button-line";
 
-export default function NavMobileButton() {
+export default function NavMobileButton({change} : {change: (isOpen: boolean) => void}) {
 
     const [isClient, setIsClient] = useState(false);
     const [menuIsOpen, setMenuIsOpen ] = useState(false) // 打开菜单
@@ -18,7 +18,9 @@ export default function NavMobileButton() {
      * 切换打开关闭菜单
      */
     const toggleMenu = () => {
-        setMenuIsOpen(!menuIsOpen)
+        const nextMenuIsOpen = !menuIsOpen
+        setMenuIsOpen(nextMenuIsOpen)
+        change(nextMenuIsOpen)
     }
 
     // 非客户端不显示
