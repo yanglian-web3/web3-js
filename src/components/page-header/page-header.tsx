@@ -1,9 +1,9 @@
 "use client"
 
 import CyberGradientConnectButton from "../cyber-gradient-connect-button";
-import NavPc from "./pc/nav-pc";
+import NavPc from "./nav/nav-pc";
 import IconLogo from "../icons/icon-logo";
-import NavMobile from "./mobile/nav-mobile";
+import NavMobile from "./nav/mobile/nav-mobile";
 /**
  * 应用程序头部导航组件
  */

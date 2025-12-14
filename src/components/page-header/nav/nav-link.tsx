@@ -1,7 +1,7 @@
 import {usePathname} from "next/navigation";
 import Link from "next/link";
 
-export default function NavLinkPc({ href, children }: { href: string; children: React.ReactNode }) {
+export default function NavLink({ href, children }: { href: string; children: React.ReactNode }) {
 
     const pathname = usePathname();
     const isActive = pathname === href;
