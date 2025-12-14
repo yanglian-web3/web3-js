@@ -31,9 +31,7 @@ function MyApp({ Component, pageProps }: AppProps) {
                       <PageBackground/>
                       <div className="z-10 flex-1 flex flex-col">
                           <PageHeader/>
-                          <div className="flex-1">
-                              <Component {...pageProps} />
-                          </div>
+                          <Component {...pageProps} />
                       </div>
                       <footer className={"flex py-4 border-t-1 border-gray-200 text-gray-100 justify-center items-center"}>
                           <a href="https://rainbow.me" rel="noopener noreferrer" target="_blank">

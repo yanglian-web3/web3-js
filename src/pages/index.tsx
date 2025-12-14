@@ -4,16 +4,18 @@ import PureSVGHalo from "../components/dashboard/pure-svg-halo";
 import CyberCard from "../components/card/cyber-card";
 
 const Dashboard: NextPage = () => {
+
+  /**
+   * 获取渲染内容布局
+   */
+  const getContent = () => {
+    return <CyberCard className=" w-10/12 lg:w-[800px] xl:w-[1000px] 2xl:w-[1200px] 3xl:w-[1440px] h-[70vh]"/>
+  }
+
   return <>
-    <main className="flex flex-col justify-center items-center">
-      <div>
-        <CyberCard className="w-[400px] h-[400px]"/>
-      </div>
+    <main className="flex flex-col flex-1 justify-center items-center">
+      {getContent()}
     </main>
-    {/*光晕*/}
-    {/*<div className="fixed" style={{width: "50vw",height:"50vw", right: "8vw",bottom: "-15vw"}}>*/}
-    {/*  */}
-    {/*</div>*/}
     <PureSVGHalo/>
     {/*底部模糊层 */}
     <div className="fixed inset-0 pointer-events-none z-30">

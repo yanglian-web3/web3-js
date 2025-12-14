@@ -5,6 +5,15 @@
 @theme inline {
     /* ==== 赛博朋克配色系统 ==== */
 
+    /* ==== 断点扩展 ==== */
+    --breakpoint-sm: 640px;
+    --breakpoint-md: 768px;
+    --breakpoint-lg: 1024px;
+    --breakpoint-xl: 1280px;
+    --breakpoint-2xl: 1536px;
+    --breakpoint-3xl: 1740px; /* 自定义 1740px 断点 */
+    --breakpoint-4xl: 1920px; /* 自定义 1920px 断点 */
+
     /* 霓虹绿色系 */
     --color-cyber-neon-50: #e6fff5;
     --color-cyber-neon-100: #ccffeb;
