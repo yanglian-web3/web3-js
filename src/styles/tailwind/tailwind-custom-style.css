@@ -29,7 +29,7 @@
 
     /* 自定义滚动条 */
     ::-webkit-scrollbar {
-        width: 10px;
+        width: 8px;
     }
 
     ::-webkit-scrollbar-track {
@@ -37,12 +37,12 @@
     }
 
     ::-webkit-scrollbar-thumb {
-        background: linear-gradient(to bottom, var(--color-cyber-neon-400), var(--color-cyber-purple-400));
+        background: linear-gradient(to bottom, var(--color-cyber-pink-400), var(--color-cyber-blue-400), var(--color-cyber-purple-400));
         border-radius: 9999px;
     }
 
     ::-webkit-scrollbar-thumb:hover {
-        background: linear-gradient(to bottom, var(--color-cyber-neon-500), var(--color-cyber-purple-500));
+        background: linear-gradient(to bottom, var(--color-cyber-pink-300), var(--color-cyber-blue-300), var(--color-cyber-purple-300));
     }
 
     /* 选择文本样式 */
@@ -50,166 +50,4 @@
         background-color: rgba(0, 255, 157, 0.3);
         color: rgb(191, 219, 254); /* cyber-neon-200 */
     }
-}
-
-/* ==== 组件样式 ==== */
-/* 注意：在 CSS 中不能使用 @layer components，需要写成普通 CSS 类 */
-
-/* 钱包连接按钮 */
-.btn-connect {
-    position: relative;
-    padding: 0.75rem 1.5rem;
-    background-color: var(--color-cyber-dark-300);
-    border: 1px solid var(--color-cyber-neon-400);
-    color: var(--color-cyber-neon-400);
-    border-radius: 0.5rem;
-    font-weight: bold;
-    transition: all 0.3s ease;
-    overflow: hidden;
-}
-
-.btn-connect:hover {
-    background-color: var(--color-cyber-dark-200);
-    box-shadow: var(--shadow-neon);
-}
-
-.btn-connect:active {
-    transform: scale(0.95);
-}
-
-.btn-connect::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(to right,
-    rgba(0, 255, 157, 0.1),
-    rgba(0, 224, 255, 0.1));
-    opacity: 0;
-    transition: opacity 0.3s ease;
-}
-
-.btn-connect:hover::before {
-    opacity: 1;
-}
-
-/* 交易按钮 */
-.btn-transaction {
-    padding: 0.75rem 1.5rem;
-    background: linear-gradient(to right,
-    var(--color-cyber-neon-400),
-    var(--color-cyber-blue-500));
-    color: var(--color-cyber-dark-400);
-    border-radius: 9999px;
-    font-weight: bold;
-    transition: all 0.3s ease;
-}
-
-.btn-transaction:hover {
-    box-shadow: 0 0 30px rgba(0, 255, 157, 0.5);
-    transform: scale(1.05);
-}
-
-/* 资产卡片 */
-.asset-card {
-    position: relative;
-    background: linear-gradient(
-            135deg,
-            rgba(10, 10, 15, 0.9),
-            rgba(8, 8, 12, 0.9)
-    );
-    backdrop-filter: blur(4px);
-    border: 1px solid rgba(0, 255, 157, 0.1);
-    border-radius: 0.75rem;
-    padding: 1.5rem;
-    transition: all 0.3s ease;
-}
-
-.asset-card:hover {
-    border-color: rgba(0, 255, 157, 0.3);
-}
-
-.asset-card::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: radial-gradient(
-            ellipse at top,
-            rgba(0, 255, 157, 0.05) 0%,
-            transparent 50%,
-            transparent 100%
-    );
-    opacity: 0;
-    transition: opacity 0.5s ease;
-}
-
-.asset-card:hover::after {
-    opacity: 1;
-}
-
-/* 导航链接 */
-.nav-link {
-    position: relative;
-    padding: 0.5rem 1rem;
-    color: #d1d5db; /* gray-300 */
-    transition: color 0.3s ease;
-}
-
-.nav-link:hover {
-    color: var(--color-cyber-neon-400);
-}
-
-.nav-link-active {
-    color: var(--color-cyber-neon-400);
-}
-
-.nav-link::after {
-    content: '';
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    height: 2px;
-    background: linear-gradient(to right,
-    var(--color-cyber-neon-400),
-    var(--color-cyber-pink-400));
-    transition: width 0.3s ease;
-    width: 0;
-}
-
-.nav-link:hover::after,
-.nav-link-active::after {
-    width: 100%;
-}
-
-/* 输入框 */
-.input-cyber {
-    width: 100%;
-    padding: 0.75rem 1rem;
-    background-color: var(--color-cyber-dark-300);
-    border: 1px solid rgba(0, 255, 157, 0.3);
-    border-radius: 0.5rem;
-    color: #f3f4f6; /* gray-100 */
-    transition: all 0.3s ease;
-}
-
-.input-cyber::placeholder {
-    color: #6b7280; /* gray-500 */
-}
-
-.input-cyber:focus {
-    outline: none;
-    border-color: var(--color-cyber-neon-400);
-    box-shadow: 0 0 0 1px var(--color-cyber-neon-400);
-}
-
-/* 模态框 */
-.modal-cyber {
-    background: linear-gradient(
-            to bottom,
-            var(--color-cyber-dark-400),
-            var(--color-cyber-dark-600)
-    );
-    border: 1px solid rgba(0, 255, 157, 0.2);
-    border-radius: 1rem;
-    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
-    backdrop-filter: blur(20px);
 }
