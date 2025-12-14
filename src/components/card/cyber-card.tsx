@@ -9,6 +9,7 @@ import { cn } from '../../lib/utils'
 interface CyberCardProps {
     children?: ReactNode
     className?: string
+    contentClassName?: string
     hoverEffect?: boolean
     glowColor?: 'neon' | 'pink' | 'blue' | 'purple'
     borderStyle?: 'gradient' | 'solid' | 'dashed'
@@ -18,6 +19,7 @@ interface CyberCardProps {
 export default function CyberCard({
                                       children,
                                       className,
+                                      contentClassName,
                                       hoverEffect = true,
                                       glowColor = 'neon',
                                       borderStyle = 'gradient',
@@ -117,7 +119,7 @@ export default function CyberCard({
             />
 
             {/* 内容区域 */}
-            <div className="relative z-10 p-6">
+            <div className={`relative z-10 p-6 ${contentClassName}`}>
                 {children}
             </div>
         </div>
