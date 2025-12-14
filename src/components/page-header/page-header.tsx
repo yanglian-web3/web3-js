@@ -10,7 +10,7 @@ import NavMobile from "./nav/mobile/nav-mobile";
 export default function PageHeader() {
     return <>
         <header className="sticky top-0 z-50 mx-auto flex justify-between items-center w-full py-4 px-4 md:px-6 backdrop-blur-xl bg-cyber-dark-400/90 border-b border-cyber-neon/20">
-            <div className="max-w-7xl w-full mx-auto flex justify-between items-center">
+            <div className="w-full mx-auto flex justify-between items-center">
                 <div className="flex items-center gap-0 md:gap-2">
                     {/* Logo 区域 */}
                     <div className="mr-0 md:mr-8 flex items-center gap-3">
