@@ -102,6 +102,31 @@
     --border-color-neon: rgba(0, 255, 157, 0.3);
     --border-color-neon-pink: rgba(255, 0, 255, 0.3);
     --border-color-neon-blue: rgba(0, 224, 255, 0.3);
+
+    /* 卡片特定阴影 */
+    --shadow-card-cyber:
+            0 10px 30px rgba(10, 10, 15, 0.8),
+            0 0 20px rgba(0, 255, 157, 0.3),
+            inset 0 1px 0 rgba(255, 255, 255, 0.1);
+
+    /* 卡片背景渐变 */
+    --gradient-card-bg:
+            linear-gradient(145deg,
+            rgba(10, 10, 15, 0.8) 0%,
+            rgba(157, 0, 255, 0.1) 50%,
+            rgba(0, 255, 157, 0.05) 100%);
+
+    /* 边框渐变 */
+    --gradient-border-neon:
+            linear-gradient(135deg,
+            var(--color-cyber-neon-400),
+            var(--color-cyber-purple-400));
+
+    /* 文字发光效果 */
+    --text-shadow-neon:
+            0 0 5px currentColor,
+            0 0 10px currentColor,
+            0 0 20px currentColor;
 }
 
 /* ==== 关键帧动画定义 ==== */
@@ -166,4 +191,36 @@
             linear-gradient(rgba(0, 255, 157, 0.1) 1px, transparent 1px),
             linear-gradient(90deg, rgba(0, 255, 157, 0.1) 1px, transparent 1px);
     background-size: 50px 50px;
+}
+
+
+/* 新增工具类 */
+@utility card-cyber {
+    background: var(--gradient-card-bg);
+    box-shadow: var(--shadow-card-cyber);
+    border: 1px solid transparent;
+    background-origin: border-box;
+}
+
+@utility border-gradient {
+    border: 2px solid transparent;
+    background:
+            linear-gradient(var(--color-cyber-dark-400), var(--color-cyber-dark-400)) padding-box,
+            var(--gradient-border-neon) border-box;
+}
+
+@utility text-glow {
+    text-shadow: var(--text-shadow-neon);
+}
+
+@utility scan-overlay {
+    background:
+            linear-gradient(
+                    to bottom,
+                    transparent 0%,
+                    rgba(0, 255, 157, 0.1) 50%,
+                    transparent 100%
+            );
+    background-size: 100% 8px;
+    animation: scan-line 3s linear infinite;
 }

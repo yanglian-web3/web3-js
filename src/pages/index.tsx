@@ -1,12 +1,14 @@
 import type { NextPage } from 'next';
 import ScanStarAnimations from "../components/dashboard/scan-star-animations";
 import PureSVGHalo from "../components/dashboard/pure-svg-halo";
+import CyberCard from "../components/card/cyber-card";
 
 const Dashboard: NextPage = () => {
   return <>
-    <main className="flex flex-col">
-
-
+    <main className="flex flex-col justify-center items-center">
+      <div>
+        <CyberCard className="w-[400px] h-[400px]"/>
+      </div>
     </main>
     {/*光晕*/}
     {/*<div className="fixed" style={{width: "50vw",height:"50vw", right: "8vw",bottom: "-15vw"}}>*/}

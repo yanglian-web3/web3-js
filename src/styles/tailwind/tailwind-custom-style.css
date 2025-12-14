@@ -1,13 +1,4 @@
 
-/* 注意：CSS 不支持嵌套，需要单独定义 hover 状态 */
-.glow-hover {
-    transition: all 0.3s ease;
-}
-
-.glow-hover:hover {
-    box-shadow: 0 0 20px rgba(0, 255, 157, 0.5);
-}
-
 @utility wallet-address {
     font-family: monospace;
     background-color: var(--color-cyber-dark-300);
