@@ -34,15 +34,15 @@ export default function PureSVGHalo() {
 
     useEffect(() => {
         // 确保 SVG 滤镜正常工作
-        console.log('SVG Halo mounted');
-        console.log('Screen size:', screenSize);
+        // console.log('SVG Halo mounted');
+        // console.log('Screen size:', screenSize);
 
         // 调试：检查元素是否渲染
         const checkRender = () => {
             const svg = document.querySelector('svg');
             const circles = svg?.querySelectorAll('circle');
-            console.log('SVG exists:', !!svg);
-            console.log('Circles:', circles?.length || 0);
+            // console.log('SVG exists:', !!svg);
+            // console.log('Circles:', circles?.length || 0);
         };
 
         setTimeout(checkRender, 100);
