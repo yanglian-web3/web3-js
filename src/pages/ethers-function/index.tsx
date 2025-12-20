@@ -40,11 +40,10 @@ export default function EthersFunction() {
                 modal.open({
                     title: '查账metaMask失败',
                     content: "您还没有安装MetaMask,请安装MetaMask后重试",
+                    showCancelButton: false,
+                    confirmButtonText: '知道了',
                     size: 'sm',
-                    theme: 'neon',
-                    onConfirm: async () => {
-                        // 确认逻辑
-                    },
+                    theme: 'neon'
                 });
                 return
             }
