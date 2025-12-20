@@ -101,10 +101,13 @@
 
     /* ==== 阴影效果 ==== */
     --shadow-neon: 0 0 15px rgba(0, 255, 157, 0.7);
-    --shadow-neon-lg: 0 0 30px rgba(0, 255, 157, 0.9);
+    --shadow-neon-lg: 0 0 30px rgba(0, 255, 157, 0.7);
     --shadow-neon-pink: 0 0 15px rgba(255, 0, 255, 0.7);
+    --shadow-neon-pink-lg: 0 0 30px rgba(255, 0, 255, 0.7);
     --shadow-neon-blue: 0 0 15px rgba(0, 224, 255, 0.7);
+    --shadow-neon-blue-lg: 0 0 30px rgba(0, 224, 255, 0.7);
     --shadow-neon-purple: 0 0 15px rgba(157, 0, 255, 0.7);
+    --shadow-neon-purple-lg: 0 0 30px rgba(157, 0, 255, 0.7);
     --shadow-inner-neon: inset 0 0 20px rgba(0, 255, 157, 0.3);
 
     /* ==== 边框颜色 ==== */

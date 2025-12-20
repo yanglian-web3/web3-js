@@ -5,7 +5,6 @@ import PageLoading from '@/src/components/page-loading';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue, SelectLabel, SelectGroup } from '@/components/ui/select';
 import { getEthersFunctions } from '../../lib/ethers';
 import { CreateWalletInfo, EtherFunctionCardLoading } from '../../types/ethers-function';
-import Modal from '../../components/ui/cyber-modal';
 import { useGlobalModal } from '../../components/ui/cyber-modal/global-modal';
 
 const loadingDefault: EtherFunctionCardLoading = {
@@ -23,7 +22,6 @@ export default function EthersFunction() {
         mnemonic: '',
         walletInstance: null,
     });
-    const [isOpen, setIsOpen] = useState(false);
     const modal = useGlobalModal();
     // 获取当前版本的函数
     const functionEvents = getEthersFunctions(ethersVersion);
@@ -162,21 +160,5 @@ export default function EthersFunction() {
                 </div>
             </div>
         </div>
-        <Modal
-            isOpen={isOpen}
-            onClose={() => setIsOpen(false)}
-            title="创建钱包"
-            content={
-                <div className="space-y-4">
-                    <p className="text-cyber-neon-400">请保存好以下信息：</p>
-                    <pre className="bg-cyber-dark-300 p-3 rounded">
-              {/* 钱包信息 */}
-            </pre>
-                </div>
-            }
-            theme="cyber"
-            glowEffect={true}
-            size="lg"
-        />
     </>
 }

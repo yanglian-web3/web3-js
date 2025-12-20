@@ -48,7 +48,7 @@ const Modal: React.FC<ModalProps> = ({
         pink: {
             border: 'rgba(255, 0, 255, 0.3)',
             shadow: 'var(--shadow-neon-pink)',
-            hoverShadow: '0 0 30px rgba(255, 0, 255, 0.9)',
+            hoverShadow: 'var(--shadow-neon-pink-lg)',
             gradientFrom: 'var(--color-cyber-pink-400)',
             gradientTo: 'var(--color-cyber-purple-400)',
             buttonTheme: 'pink' as const,
@@ -56,7 +56,7 @@ const Modal: React.FC<ModalProps> = ({
         blue: {
             border: 'rgba(0, 224, 255, 0.3)',
             shadow: 'var(--shadow-neon-blue)',
-            hoverShadow: '0 0 30px rgba(0, 224, 255, 0.9)',
+            hoverShadow: 'var(--shadow-neon-blue-lg)',
             gradientFrom: 'var(--color-cyber-blue-400)',
             gradientTo: 'var(--color-cyber-neon-400)',
             buttonTheme: 'blue' as const,
@@ -64,7 +64,7 @@ const Modal: React.FC<ModalProps> = ({
         purple: {
             border: 'rgba(157, 0, 255, 0.3)',
             shadow: 'var(--shadow-neon-purple)',
-            hoverShadow: '0 0 30px rgba(157, 0, 255, 0.9)',
+            hoverShadow: 'var(--shadow-neon-purple-lg)',
             gradientFrom: 'var(--color-cyber-purple-400)',
             gradientTo: 'var(--color-cyber-pink-400)',
             buttonTheme: 'purple' as const,
@@ -191,18 +191,6 @@ const Modal: React.FC<ModalProps> = ({
                         }}
                     />
 
-                    {/* 扫描线效果 */}
-                    <div
-                        className="absolute inset-0 opacity-0 group-hover:opacity-10 transition-opacity duration-300 pointer-events-none"
-                        style={{
-                            backgroundImage: `
-                linear-gradient(rgba(0, 255, 157, 0.3) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(0, 255, 157, 0.3) 1px, transparent 1px)
-              `,
-                            backgroundSize: '40px 40px',
-                        }}
-                    />
-
                     {/* 悬停光晕效果 */}
                     {glowEffect && (
                         <div
@@ -221,7 +209,7 @@ const Modal: React.FC<ModalProps> = ({
                         {/* 标题区域 */}
                         {title && (
                             <div className="px-6 pt-6 pb-4 border-b border-cyber-dark-300/50">
-                                <h2 className="text-xl font-bold text-white neon-text">
+                                <h2 className="text-xl font-bold text-white">
                                     {title}
                                 </h2>
                             </div>
