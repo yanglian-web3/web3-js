@@ -109,15 +109,6 @@ export default function CyberCard({
                 />
             )}
 
-            {/* 扫描线效果 */}
-            <div className="absolute inset-0 opacity-0 group-hover:opacity-20 transition-opacity duration-500"
-                 style={{
-                     background: 'linear-gradient(transparent 50%, rgba(0, 255, 157, 0.1) 50%)',
-                     backgroundSize: '100% 8px',
-                     animation: 'scan-line 3s linear infinite'
-                 }}
-            />
-
             {/* 内容区域 */}
             <div className={`relative z-10 p-6 ${contentClassName}`}>
                 {children}
