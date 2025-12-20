@@ -259,7 +259,7 @@ const Modal: React.FC<ModalProps> = ({
                     {showCloseButton && (
                         <button
                             onClick={onClose}
-                            className="absolute top-4 right-4 z-20 p-2 rounded-full hover:bg-cyber-dark-300/30 transition-colors duration-200"
+                            className="absolute top-4 right-4 z-20 p-2 rounded-full hover:bg-cyber-dark-300/30 transition-colors duration-200 cursor-pointer"
                             aria-label="关闭"
                         >
                             <svg
