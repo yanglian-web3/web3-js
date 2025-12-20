@@ -20,6 +20,7 @@ const Modal: React.FC<ModalProps> = ({
                                          onConfirm,
                                          showCloseButton = true,
                                          showConfirmButton = true,
+                                         showCancelButton = true,
                                          confirmText = '确认',
                                          cancelText = '取消',
                                          size = 'md',
@@ -232,7 +233,7 @@ const Modal: React.FC<ModalProps> = ({
                                 footer
                             ) : (
                                 <div className="flex justify-end gap-3">
-                                    {showCloseButton && (
+                                    {showCancelButton && (
                                         <CyberButton
                                             variant="cancel"
                                             onClick={onClose}
