@@ -3,10 +3,12 @@ import CyberButton from "@/src/components/cyber-button";
 import { ethers } from 'ethers'
 import {useState} from "react";
 import {Select, SelectContent, SelectItem, SelectTrigger, SelectValue, SelectLabel, SelectGroup} from "@/components/ui/select";
+import PageLoading from "@/src/components/page-loading";
 
 export default function EthersFunction () {
 
     const [connectWalletAddress, setConnectWalletAddress] = useState("") // 连接钱包得到的地址
+    const [connectWalletLoading, setConnectWalletLoading] = useState(false) // 连接钱包得到的地址loading
     const [ethersVersion, setEthersVersion] = useState("6")
 
     /**
@@ -31,18 +33,23 @@ export default function EthersFunction () {
      * 连接钱包
      */
     const connectWallet = async () => {
-        console.log("(window.ethereum=", window.ethereum)
-        console.log("(ethers=", ethers)
-        setConnectWalletAddress("")
-        const provider = new ethers.BrowserProvider(window.ethereum)
-        await provider.send("eth_requestAccounts", [])
-        const signer = await provider.getSigner();
-        const address = await signer.getAddress();
-        setConnectWalletAddress(address)
-        console.log("连接地址:", address);
-        console.log("Provider:", provider);
+        try {
+            setConnectWalletAddress("")
+            setConnectWalletLoading(true)
+            const provider = new ethers.BrowserProvider(window.ethereum)
+            await provider.send("eth_requestAccounts", [])
+            const signer = await provider.getSigner();
+            const address = await signer.getAddress();
+            setConnectWalletAddress(address)
+            console.log("连接地址:", address);
+            console.log("Provider:", provider);
 
-        return provider.getSigner()
+            setConnectWalletLoading(false)
+            return provider.getSigner()
+        } catch (error){
+            console.log("连接钱包失败:", error);
+            setConnectWalletLoading(false)
+        }
     }
 
     return <div className="max-w-4xl w-full flex-1 p-4 flex flex-wrap h-space-2 m-auto">
@@ -65,12 +72,14 @@ export default function EthersFunction () {
                     </SelectGroup>
                 </Select>
             </CyberCard>
-            <CyberCard>
-                <div className="mb-2">
-                    <span className="mr-4">ethers 连接钱包</span>
-                    <CyberButton onClick={connectWallet}>点击测试</CyberButton>
-                </div>
-                <p>钱包地址：{connectWalletAddress}</p>
+            <CyberCard className="h-30">
+                <PageLoading loading={connectWalletLoading} size="mini">
+                    <div className="mb-2">
+                        <span className="mr-4">ethers 连接钱包</span>
+                        <CyberButton onClick={connectWallet}>点击测试</CyberButton>
+                    </div>
+                    <p>钱包地址：{connectWalletAddress}</p>
+                </PageLoading>
             </CyberCard>
         </div>
     </div>
