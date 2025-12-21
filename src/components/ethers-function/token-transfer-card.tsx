@@ -8,7 +8,6 @@ import {
     SelectValue
 } from "@/components/ui/select";
 import {useEffect, useState} from "react";
-import CyberCard from "@/src/components/ui/card/cyber-card";
 import PageLoading from "@/src/components/page-loading";
 import CyberButton from "@/src/components/ui/cyber-button";
 import {
@@ -21,7 +20,8 @@ import {ERC20_JSON_ABI} from "@/src/constants/abis/erc20-json";
 import {getEthersFunctions} from "@/src/lib/ethers";
 import { useChainId } from 'wagmi'
 import {useGlobalModal} from "@/src/components/ui/cyber-modal/global-modal";
-import {checkAccount2Address, checkInternalTransactions, diagnoseTokenBalance} from "../../utils/test-balence"
+import {checkAccount2Address, checkInternalTransactions} from "../../utils/test-balence"
+import EthersFunctionCard from "@/src/components/ethers-function/ethers-function-card";
 
 interface TokenTransferCardProps {
     ethersVersion: '5' | '6'
@@ -188,7 +188,7 @@ export default function TokenTransferCard({ethersVersion}: TokenTransferCardProp
     };
 
     return (
-        <CyberCard contentClassName={`${loading ? "h-[690px]" : ""}`}>
+        <EthersFunctionCard cardProps={{contentClassName:`${loading ? "h-[690px]" : ""}`}}>
             <PageLoading loading={loading} size="mini">
                 <div className="mb-4">
                     <div className="flex justify-between items-center mb-4">
@@ -382,6 +382,6 @@ export default function TokenTransferCard({ethersVersion}: TokenTransferCardProp
                     </details>
                 </div>
             </PageLoading>
-        </CyberCard>
+        </EthersFunctionCard>
     )
 }

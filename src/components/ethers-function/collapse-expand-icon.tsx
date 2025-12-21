@@ -7,11 +7,12 @@ interface Props {
   top?: string
   left?: string
   right?: string
-  bottom?: string
+  bottom?: string,
+    onClick: () => void
 }
 
 export default function CollapseExpandIcon(props: Props) {
-    const { size, top=0, left, right=0, bottom, className } = props;
+    const { size, top, left, right, bottom, className, onClick } = props;
   return (
     <div className={`cursor-pointer transition-all duration-300 rounded-full p-1 absolute ${className}`}
          style={{
@@ -25,6 +26,7 @@ export default function CollapseExpandIcon(props: Props) {
           linear-gradient(135deg, #333333, #555555) border-box
         `,
          }}
+         onClick={onClick}
     >
         <IconArrow width={size} height={size}/>
     </div>

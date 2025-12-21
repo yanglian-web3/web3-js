@@ -1,9 +1,7 @@
 "use client"
 
 // 基础卡片
-
-
-import React, { ReactNode } from 'react'
+import React, { forwardRef, ReactNode } from 'react'
 import { cn } from '../../../utils/utils'
 
 interface CyberCardProps {
@@ -16,16 +14,18 @@ interface CyberCardProps {
     onClick?: () => void
 }
 
-export default function CyberCard({
-                                      children,
-                                      className,
-                                      contentClassName,
-                                      hoverEffect = true,
-                                      glowColor = 'neon',
-                                      borderStyle = 'gradient',
-                                      onClick
-                                  }: CyberCardProps) {
-
+const CyberCard = forwardRef<HTMLDivElement, CyberCardProps>((
+    {
+        children,
+        className,
+        contentClassName,
+        hoverEffect = true,
+        glowColor = 'neon',
+        borderStyle = 'gradient',
+        onClick
+    }: CyberCardProps,
+    ref // ✅ 添加 ref 参数，这是 forwardRef 的第二个参数
+) => {
     const glowColors = {
         neon: {
             shadow: 'var(--shadow-neon)',
@@ -57,6 +57,7 @@ export default function CyberCard({
 
     return (
         <div
+            ref={ref} // ✅ 关键：将 ref 传递给 div 元素
             onClick={onClick}
             className={cn(
                 "relative rounded-xl transition-all duration-500 overflow-hidden",
@@ -115,4 +116,8 @@ export default function CyberCard({
             </div>
         </div>
     )
-}
+}) // ✅ 这里不需要分号，因为这是函数表达式
+
+CyberCard.displayName = 'CyberCard' // ✅ 推荐设置 displayName
+
+export default CyberCard
