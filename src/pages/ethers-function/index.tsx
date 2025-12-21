@@ -6,6 +6,8 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue, SelectLa
 import { getEthersFunctions } from '../../lib/ethers';
 import { CreateWalletInfo, EtherFunctionCardLoading } from '../../types/ethers-function';
 import { useGlobalModal } from '../../components/ui/cyber-modal/global-modal';
+import TokenTransferCard from "@/src/components/ethers-function/token-transfer-card";
+import {isMetaMaskInstalled} from "@/src/utils/ethers-function";
 
 const loadingDefault: EtherFunctionCardLoading = {
     connectWallet: false,
@@ -23,39 +25,16 @@ export default function EthersFunction() {
         walletInstance: null,
     });
     const modal = useGlobalModal();
-    // 获取当前版本的函数
-    const functionEvents = getEthersFunctions(ethersVersion);
+    const [abiFormat, setAbiFormat] = useState('json'); // abi格式
 
-    /**
-     * 判断是否安装了MetaMask
-     * 如果没有安装，弹出弹窗提示安装
-     */
-    const isMetaMaskInstalled = () => {
 
-        return new Promise(resolve => {
-            console.log('window.ethereum:', window.ethereum);
-            const hasMetaMask = window.ethereum && window.ethereum.isMetaMask;
-            console.log('hasMetaMask:', hasMetaMask);
-            if (!hasMetaMask) {
-                modal.open({
-                    title: '查账metaMask失败',
-                    content: "您还没有安装MetaMask,请安装MetaMask后重试",
-                    showCancelButton: false,
-                    confirmButtonText: '知道了',
-                    size: 'sm',
-                    theme: 'neon'
-                });
-                return
-            }
-            resolve(true)
-        })
-
-    }
     /**
      * 连接钱包处理
      */
     const handleConnectWallet = async () => {
         await isMetaMaskInstalled()
+        // 获取当前版本的函数
+        const functionEvents = getEthersFunctions(ethersVersion);
         try {
             setConnectWalletAddress('');
             setCardLoading({ ...loadingDefault, connectWallet: true });
@@ -75,6 +54,8 @@ export default function EthersFunction() {
      */
     const handleCreateWallet = async () => {
         await isMetaMaskInstalled()
+        // 获取当前版本的函数
+        const functionEvents = getEthersFunctions(ethersVersion);
         try {
             const walletInfo = functionEvents.createWallet();
             setCreateWalletInfo(walletInfo);
@@ -83,6 +64,7 @@ export default function EthersFunction() {
             console.error('创建钱包失败:', error);
         }
     };
+
 
     /**
      * ethers版本切换
@@ -104,6 +86,14 @@ export default function EthersFunction() {
             mnemonic: '',
             walletInstance: null,
         });
+    };
+
+    /**
+     * abi格式切换
+     * @param value
+     */
+    const abiFormatChange = (value: string) => {
+        setAbiFormat(value);
     };
 
     return <>
@@ -136,9 +126,9 @@ export default function EthersFunction() {
                     {/* 连接钱包卡片 */}
                     <CyberCard className="h-30">
                         <PageLoading loading={cardLoading.connectWallet} size="mini">
-                            <div className="mb-2">
-                                <span className="mr-4">ethers 连接钱包</span>
-                                <CyberButton onClick={handleConnectWallet}>点击测试</CyberButton>
+                            <div className="mb-2 flex justify-between items-center">
+                                <span className="mr-4">连接钱包</span>
+                                <CyberButton onClick={handleConnectWallet}>点击连接</CyberButton>
                             </div>
                             <p>钱包地址：{connectWalletAddress}</p>
                         </PageLoading>
@@ -147,15 +137,17 @@ export default function EthersFunction() {
                     {/* 创建钱包实例卡片 */}
                     <CyberCard className="h-40">
                         <PageLoading loading={cardLoading.createWallet} size="mini">
-                            <div className="mb-2">
-                                <span className="mr-4">ethers 创建钱包实例</span>
-                                <CyberButton onClick={handleCreateWallet}>点击测试</CyberButton>
+                            <div className="mb-2 flex justify-between items-center">
+                                <span className="mr-4">创建钱包实例</span>
+                                <CyberButton onClick={handleCreateWallet}>点击创建</CyberButton>
                             </div>
                             <p>钱包地址：{createWalletInfo.address}</p>
                             <p>privateKey：{createWalletInfo.privateKey}</p>
                             <p>mnemonic：{createWalletInfo.mnemonic}</p>
                         </PageLoading>
                     </CyberCard>
+                    {/* 代币转账卡片 */}
+                    <TokenTransferCard ethersVersion={ethersVersion}/>
                 </div>
             </div>
         </div>

@@ -12,8 +12,21 @@ export interface EtherFunctionCardLoading {
     connectWallet: boolean,
     createWallet: boolean
 }
-
+export interface TokenTransferParams {
+    contractAddress: string,
+    to: string,
+    amount: string,
+    ERC20_ABI: any[],
+    decimals?: number
+}
 export interface WalletFunctions {
     connectWallet: () => Promise<any>;
     createWallet: () => CreateWalletInfo;
+    tokenTransfer: (params:TokenTransferParams) => Promise<any>;
+    getTokenInfo: (contractAddress: string, ERC20_ABI: any[]) => Promise<{
+        name: string,
+        symbol: string,
+        decimals: number,
+        totalSupply: string
+    }>;
 }
