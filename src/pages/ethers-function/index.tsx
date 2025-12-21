@@ -7,6 +7,7 @@ import { getEthersFunctions } from '../../lib/ethers';
 import { CreateWalletInfo, EtherFunctionCardLoading } from '../../types/ethers-function';
 import TokenTransferCard from "@/src/components/ethers-function/token-transfer-card";
 import {isMetaMaskInstalled} from "@/src/utils/ethers-function";
+import ListenEventsCard from "@/src/components/ethers-function/listen-events-card/listen-events-card";
 
 const loadingDefault: EtherFunctionCardLoading = {
     connectWallet: false,
@@ -137,6 +138,8 @@ export default function EthersFunction() {
                     </CyberCard>
                     {/* 代币转账卡片 */}
                     <TokenTransferCard ethersVersion={ethersVersion}/>
+                    {/*监听链上事件卡片*/}
+                    <ListenEventsCard/>
                 </div>
             </div>
         </div>
