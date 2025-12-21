@@ -1,6 +1,4 @@
 import { GlobalModalManager } from "@/src/components/ui/cyber-modal/global-modal";
-import { ethers } from "ethers";
-import { localNetRequestAddress } from "@/src/constants/net-address";
 
 /**
  * 判断是否安装了MetaMask
@@ -10,9 +8,9 @@ import { localNetRequestAddress } from "@/src/constants/net-address";
 export const isMetaMaskInstalled = () => {
 
     return new Promise(resolve => {
-        console.log('window.ethereum:', window.ethereum);
+        // console.log('window.ethereum:', window.ethereum);
         const hasMetaMask = window.ethereum && window.ethereum.isMetaMask;
-        console.log('hasMetaMask:', hasMetaMask);
+        // console.log('hasMetaMask:', hasMetaMask);
         if (!hasMetaMask) {
             GlobalModalManager.open({
                 title: '查账metaMask失败',

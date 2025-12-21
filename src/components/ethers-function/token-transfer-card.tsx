@@ -295,10 +295,10 @@ export default function TokenTransferCard({ethersVersion}: TokenTransferCardProp
                                         </div>
                                     </div>
                                     <SelectContent>
-                                        <SelectItem value="6">6（USDT/USDC）</SelectItem>
-                                        <SelectItem value="18">18（ETH/DAI）</SelectItem>
-                                        <SelectItem value="8">8（WBTC）</SelectItem>
-                                        <SelectItem value="9">9</SelectItem>
+                                        <SelectItem value={6}>6（USDT/USDC）</SelectItem>
+                                        <SelectItem value={18}>18（ETH/DAI）</SelectItem>
+                                        <SelectItem value={8}>8（WBTC）</SelectItem>
+                                        <SelectItem value={9}>9</SelectItem>
                                     </SelectContent>
                                 </SelectGroup>
                             </Select>
