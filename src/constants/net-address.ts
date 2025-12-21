@@ -1,0 +1,2 @@
+export const localNetRequestAddress = "http://127.0.0.1:8545"  // 本地部署环境的请求地址
+export const sepoliaNetRequestAddress = "https://sepolia.infura.io/v3/d8ed0bd1de8242d998a1405b6932ab33" // Sepolia测试网络的请求地址
