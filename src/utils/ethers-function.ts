@@ -1,4 +1,6 @@
 import { GlobalModalManager } from "@/src/components/ui/cyber-modal/global-modal";
+import {localNetRequestAddress} from "@/src/constants/net-address";
+import {ethers} from "ethers";
 
 /**
  * 判断是否安装了MetaMask
@@ -56,7 +58,7 @@ export const localHardatTokenAddresses = {
  * @param {number} chainId - 网络链ID
  * @returns {Promise<Array<string> | Object<string, string>>} 返回地址数组或代币映射对象
  */
-export const getHardhatAddresses = async (chainId):Promise<{[key: string]: string }> => {
+export const getTokenContractAddresses = async (chainId):Promise<{[key: string]: string }> => {
     // 1. 检查MetaMask是否安装（用于后续钱包连接场景）
     await isMetaMaskInstalled();
 
@@ -89,3 +91,74 @@ export const getHardhatAddresses = async (chainId):Promise<{[key: string]: strin
         }
     }
 };
+/**
+ * Sepolia 上一些已知的测试地址
+ */
+export const sepoliaReceivingWalletAddresses = {
+    // Uniswap V3: Factory
+    uniswapV3Factory: '0x0227628f3F023bb0B980b67D528571c95c6DaC1c',
+
+    // Wrapped Ether (WETH)
+    weth: '0x7b79995e5f793A07Bc00c21412e50Ecae098E7f9',
+
+    // USDC (测试网)
+    usdc: '0x1c7D4B196Cb0C7B01d743Fbc6116a902379C7238',
+
+    // DAI (测试网)
+    dai: '0xFF34B3d4Aee8ddCd6F9AFFFB6Fe49bD371b8a357',
+    // 零地址
+    zeroAddress: '0x0000000000000000000000000000000000000000',
+    // 黑洞地址（常用于销毁代币）
+    burnAddress: '0x000000000000000000000000000000000000dEaD',
+}
+
+// 使用这些地址作为接收方
+/**
+ * 获取指定网络的测试合约或账户地址（转账接收地址）
+ * @param {number} chainId - 网络链ID
+ * @returns {Promise<string>} 账户地址
+ */
+export const getTokenReceivingWalletAddress = async (chainId):Promise<{[key: string]: string }> => {
+    // 1. 检查MetaMask是否安装（用于后续钱包连接场景）
+    await isMetaMaskInstalled();
+
+    if (![31337, 11155111].includes(chainId)) {
+        GlobalModalManager.open({
+            title: '请求合约地址失败',
+            content: "请求合约地址失败，不支持该网络",
+            showCancelButton: false,
+            confirmText: '知道了',
+            size: 'sm',
+            theme: 'neon'
+        })
+    }
+
+    // 3. 根据网络类型采用不同策略获取地址
+    switch (chainId) {
+        case 31337: { // Hardhat 本地网络
+            const provider = new ethers.JsonRpcProvider(localNetRequestAddress);
+            try {
+                // 方法1：直接查询节点账户（仅本地网络有效）
+                const accounts = await provider.send('eth_accounts', []);
+                console.log('(本地网络)通过 eth_accounts 获取:', accounts);
+
+                // 如果查询失败，则返回预定义的地址列表
+                return accounts.reduce((result, current, index) => {
+                    result[`LOCAL_TOKEN_${index + 1}`] = current
+                    return result
+                }, {} as { [key: string]: string })
+            } catch (error) {
+                console.warn('获取本地账户失败，返回预置地址:', error);
+                return {}
+            }
+        }
+        case 11155111: { // Sepolia 测试网络
+            return sepoliaReceivingWalletAddresses; // 返
+        }
+        default: {
+            // 其他网络暂不支持获取测试地址
+            console.warn(`不支持的链ID: ${chainId}，无法获取测试地址。`);
+            return {};
+        }
+    }
+}

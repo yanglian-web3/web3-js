@@ -46,7 +46,6 @@ export const tokenTransfer_v6 = async (params: TokenTransferParams) => {
         ERC20_ABI,
         decimals = 18
     } = params
-    console.log("params=", params)
     // 1. 创建 Provider
     const provider = new ethers.BrowserProvider(window.ethereum)
 
@@ -106,7 +105,6 @@ export const getTokenInfo_v6 = async (contractAddress: string, ERC20_ABI: any[])
         contract.decimals(),
         contract.totalSupply()
     ])
-
     return {
         name,
         symbol,

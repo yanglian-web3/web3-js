@@ -11,12 +11,17 @@ import {useEffect, useState} from "react";
 import CyberCard from "@/src/components/ui/card/cyber-card";
 import PageLoading from "@/src/components/page-loading";
 import CyberButton from "@/src/components/ui/cyber-button";
-import {getHardhatAddresses, isMetaMaskInstalled} from "@/src/utils/ethers-function";
+import {
+    getTokenContractAddresses,
+    getTokenReceivingWalletAddress,
+    isMetaMaskInstalled
+} from "@/src/utils/ethers-function";
 import {ERC20_HUMAN_ABI} from "@/src/constants/abis/erc20-human-readable";
 import {ERC20_JSON_ABI} from "@/src/constants/abis/erc20-json";
 import {getEthersFunctions} from "@/src/lib/ethers";
 import { useChainId } from 'wagmi'
 import {useGlobalModal} from "@/src/components/ui/cyber-modal/global-modal";
+import { diagnoseTokenBalance } from "../../utils/test-balence"
 
 interface TokenTransferCardProps {
     ethersVersion: '5' | '6'
@@ -28,7 +33,8 @@ export default function TokenTransferCard({ethersVersion}: TokenTransferCardProp
     const [abiFormat, setAbiFormat] = useState<AbiFormat>('HUMAN');
     const [loading, setLoading] = useState(false)
     const [contractAddress, setContractAddress] = useState("")
-    const [renderAddress, setRenderAddress] = useState<{[k:string]: string}>({})
+    const [renderAddress, setRenderAddress] = useState<{[k:string]: string}>({}) // 渲染的代币地址
+    const [renderReceivingAddress, setRenderReceivingAddress] = useState<{[k:string]: string}>({}) // 渲染的接收地址
     const [recipient, setRecipient] = useState('')
     const [amount, setAmount] = useState('10')
     const [decimals, setDecimals] = useState(6)
@@ -36,8 +42,6 @@ export default function TokenTransferCard({ethersVersion}: TokenTransferCardProp
     const [error, setError] = useState<string>('')
     const chainId = useChainId() // 获取当前链 ID
     const modal = useGlobalModal()
-    // const { chains, switchChain } = useSwitchChain() // 切换链
-    // const { address, isConnected } = useAccount() // 账户信息
 
     // 获取当前版本的函数
     const functionEvents = getEthersFunctions(ethersVersion);
@@ -45,12 +49,16 @@ export default function TokenTransferCard({ethersVersion}: TokenTransferCardProp
     useEffect(() => {
         // const tokens = getTestTokens(chainId)
         // setRenderAddress(tokens)
-        getHardhatAddresses(chainId).then((address) => {
+        getTokenContractAddresses(chainId).then((address) => {
             console.log('address:', address)
             setRenderAddress(address)
             setContractAddress(Object.values(address)[0] || "")
         })
-
+        getTokenReceivingWalletAddress(chainId).then((address) => {
+            setRenderReceivingAddress(address)
+            setRecipient(Object.values(address)[0] || "")
+        })
+        diagnoseTokenBalance();
     }, [chainId])
     /**
      * 获取ABI
@@ -256,14 +264,37 @@ export default function TokenTransferCard({ethersVersion}: TokenTransferCardProp
                         <label className="block text-sm font-medium text-gray-300">
                             接收地址
                         </label>
-                        <input
-                            type="text"
-                            value={recipient}
-                            onChange={(e) => setRecipient(e.target.value)}
-                            className="w-full px-3 py-2 bg-cyber-dark-300 border border-cyber-dark-400 rounded text-white text-sm"
-                            placeholder="0x..."
-                            disabled={loading}
-                        />
+                        <div className="flex gap-2">
+                            <input
+                                type="text"
+                                value={recipient}
+                                onChange={(e) => setRecipient(e.target.value)}
+                                className="w-full px-3 py-2 bg-cyber-dark-300 border border-cyber-dark-400 rounded text-white text-sm"
+                                placeholder="0x..."
+                                disabled={loading}
+                            />
+                            <Select value={recipient} onValueChange={setRecipient}>
+                                <SelectGroup>
+                                    <div className="flex items-center gap-4">
+                                        <SelectLabel className="whitespace-nowrap text-md">
+                                            选择接收地址
+                                        </SelectLabel>
+                                        <div className="flex-1">
+                                            <SelectTrigger className="w-[200px] text-cyber-blue-200">
+                                                <SelectValue placeholder="选择接收地址" />
+                                            </SelectTrigger>
+                                        </div>
+                                    </div>
+                                    <SelectContent>
+                                        {Object.entries(renderReceivingAddress).map(([symbol, address]) => (
+                                            <SelectItem key={symbol} value={address}>
+                                                {symbol}
+                                            </SelectItem>
+                                        ))}
+                                    </SelectContent>
+                                </SelectGroup>
+                            </Select>
+                        </div>
                     </div>
 
                     {/* 金额和精度 */}
