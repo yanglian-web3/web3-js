@@ -11,7 +11,7 @@ interface Props {
 }
 
 // 动画展开逻辑
-// 收缩时，指定一个最小max-height:80px
+// 收缩时，指定一个最小max-height:72px
 // 展开时，设定一个最大max-height:200vh
 // 使用max-height的变化产生伸缩动画
 export default function EthersFunctionCard({cardProps = {}, children, expandClassName,showExpandIcon=true}: Props) {
@@ -34,7 +34,7 @@ export default function EthersFunctionCard({cardProps = {}, children, expandClas
             return;
         }
         if (!expand) {
-            card.style.maxHeight = "80px"
+            card.style.maxHeight = "72px"
         } else {
             // 展开状态：图标在底部
             card.style.maxHeight = "1000vh"
