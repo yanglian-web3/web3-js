@@ -13,6 +13,7 @@ export default function ListenEventsCard() {
             minAmount: '1000', // 只监听大于1000USDT的交易
             onTransfer: (event) => {
                 // 保存到数据库或发送通知
+                console.log("页面监听结果 event=", event)
             }
         }
     )
@@ -35,7 +36,7 @@ export default function ListenEventsCard() {
                 <>
                     <div className="mb-2 flex justify-between items-center">
                         <span className="mr-4">监听事件</span>
-                        <ExpandToggleShowContainer expand={expand}>
+                        <ExpandToggleShowContainer expand={expand} className="space-x-2">
                             <CyberButton onClick={startListen}>开始监听</CyberButton>
                             <CyberButton onClick={stopListen}>停止监听</CyberButton>
                         </ExpandToggleShowContainer>
