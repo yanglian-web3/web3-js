@@ -76,7 +76,7 @@ export default function EthersFunctionCard({cardProps = {}, children, expandClas
             for (const entry of entries) {
                 if (entry.target === cardRef.current) {
                     const newHeight = entry.contentRect.height;
-                    console.log('ResizeObserver 检测到高度变化:', newHeight);
+                    // console.log('ResizeObserver 检测到高度变化:', newHeight);
                     // 立即更新图标位置
                     updateIconPosition(newHeight);
                 }

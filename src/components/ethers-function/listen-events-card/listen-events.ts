@@ -79,7 +79,7 @@ export class EnhancedTokenMonitor {
 
             // 查询历史事件
             await this.queryPastEvents();
-
+            console.log("✅ 查询了历史事件完成----------------")
             this.isMonitoring = true;
 
             try {

@@ -44,16 +44,6 @@ export const sepoliaVerifiedTokenAddresses = {
     'META_NODE': '0xCC2B75Acee22512ff1Fddf440877417370D0eCA4',
 }
 /**
- * 本地部署代币合约账户地址
- */
-export const localHardatTokenAddresses = {
-    'MNT': '0x0165878A594ca255338adfa4d48449f69242Eb8F',
-    'USDC': '0xa513E6E4b8f2a923D98304ec87F64353C4D5C853',
-    'DAI': '0x2279B7A0a67DB372996a5FaB50D91eAA73d2eBe6',
-    'LINK': '0x8A791620dd6260079BF849Dc5567aDC3F2FdC318',
-}
-
-/**
  * 统一的主函数：获取指定网络的测试合约或账户地址
  * @param {number} chainId - 网络链ID
  * @returns {Promise<Array<string> | Object<string, string>>} 返回地址数组或代币映射对象
@@ -77,7 +67,11 @@ export const getTokenContractAddresses = async (chainId):Promise<{[key: string]:
     // 3. 根据网络类型采用不同策略获取地址
     switch (chainId) {
         case 31337: { // Hardhat 本地网络
-            return localHardatTokenAddresses
+            const hardatTokenString = (localStorage.getItem('localHardatTokenAddresses') || "").trim();
+            // console.log('(本地网络)通过 localStorage 获取:', hardatTokenString);
+            // console.log('(本地网络)通过 localStorage 获取:', /^{/.test(hardatTokenString));
+            // console.log('(本地网络)通过 localStorage 获取:', /}$/.test(hardatTokenString));
+            return hardatTokenString && /^{/.test(hardatTokenString) && /}$/.test(hardatTokenString) ? JSON.parse(hardatTokenString) : {}
         }
         case 11155111: { // Sepolia 测试网络
             // Sepolia作为公共测试网，无法通过RPC直接获取用户账户列表[citation:1]。

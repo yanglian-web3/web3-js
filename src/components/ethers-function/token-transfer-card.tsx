@@ -25,6 +25,7 @@ import EthersFunctionCard from "@/src/components/ethers-function/ethers-function
 import {useDispatch, useSelector} from "react-redux";
 import {AppDispatch, RootState} from "@/src/store";
 import { updateContractAddress } from "@/src/store/ethers-function";
+import Modal from '../../components/ui/cyber-modal';
 
 interface TokenTransferCardProps {
     ethersVersion: '5' | '6'
@@ -46,6 +47,8 @@ export default function TokenTransferCard({ethersVersion}: TokenTransferCardProp
     const chainId = useChainId() // 获取当前链 ID
     const modal = useGlobalModal()
     const dispatch = useDispatch<AppDispatch>()
+    const [importTokenModalIsOpen, setImportTokenModalIsOpen] = useState(false) // 导入数据对话框
+    const [importTokenAddressJson, setImportTokenAddressJson] = useState("") // 导入数据对话框
 
     // 获取当前版本的函数
     const functionEvents = getEthersFunctions(ethersVersion);
@@ -53,11 +56,7 @@ export default function TokenTransferCard({ethersVersion}: TokenTransferCardProp
     useEffect(() => {
         // const tokens = getTestTokens(chainId)
         // setRenderAddress(tokens)
-        getTokenContractAddresses(chainId).then((address) => {
-            console.log('address:', address)
-            setRenderAddress(address)
-            dispatch(updateContractAddress(Object.values(address)[0] || ""))
-        })
+        getSelectTokenAddressList()
         getTokenReceivingWalletAddress(chainId).then((address) => {
             setRenderReceivingAddress(address)
             setRecipient(Object.values(address)[0] || "")
@@ -66,6 +65,17 @@ export default function TokenTransferCard({ethersVersion}: TokenTransferCardProp
         checkAccount2Address();
         checkInternalTransactions();
     }, [chainId])
+
+    /**
+     * 获取代币地址列表
+     */
+    const getSelectTokenAddressList = () => {
+        getTokenContractAddresses(chainId).then((address) => {
+            console.log('address:', address)
+            setRenderAddress(address)
+            dispatch(updateContractAddress(Object.values(address)[0] || ""))
+        })
+    }
     /**
      * 获取ABI
      */
@@ -83,6 +93,20 @@ export default function TokenTransferCard({ethersVersion}: TokenTransferCardProp
     const abiFormatChange = (value: AbiFormat) => {
         setAbiFormat(value);
     };
+    /**
+     * 打开导入数据对话框
+     */
+    const openImportDataDialog = () => {
+        setImportTokenModalIsOpen(true)
+    };
+
+    /**
+     *保存导入数据到本地
+     */
+    const saveTokenAddressData = () => {
+        localStorage.setItem('localHardatTokenAddresses', importTokenAddressJson)
+        getSelectTokenAddressList()
+    }
 
     /**
      * 获取代币信息（使用统一函数）
@@ -191,7 +215,7 @@ export default function TokenTransferCard({ethersVersion}: TokenTransferCardProp
 
     };
 
-    return (
+    return <>
         <EthersFunctionCard cardProps={{
             contentClassName:`${loading ? "h-[690px]" : ""}`,
         }}
@@ -227,6 +251,7 @@ export default function TokenTransferCard({ethersVersion}: TokenTransferCardProp
                     <div className="space-y-2 mb-4">
                         <label className="block text-sm font-medium text-gray-300">
                             代币合约地址
+                            <CyberButton className="ml-2" size="small" onClick={openImportDataDialog}>导入数据</CyberButton>
                         </label>
                         <div className="flex gap-2">
                             <input
@@ -392,5 +417,19 @@ export default function TokenTransferCard({ethersVersion}: TokenTransferCardProp
                 </div>
             </PageLoading>
         </EthersFunctionCard>
-    )
+        <Modal
+            isOpen={importTokenModalIsOpen}
+            onClose={() => setImportTokenModalIsOpen(false)}
+            title="导入合约地址数据"
+            onConfirm={saveTokenAddressData}
+        >
+            <textarea
+                value={importTokenAddressJson}
+                rows={20}
+                onChange={(e) => setImportTokenAddressJson(e.target.value)}
+                className="w-[50vw] px-3 py-2 bg-cyber-dark-300 border border-cyber-dark-400 rounded text-white text-sm"
+                placeholder="输入代币合约地址json数据"
+            />
+        </Modal>
+    </>
 }

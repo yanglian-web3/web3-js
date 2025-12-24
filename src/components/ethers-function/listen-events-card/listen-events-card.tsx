@@ -14,28 +14,30 @@ export default function ListenEventsCard() {
     const [monitor, setMonitor] = useState<EnhancedTokenMonitor>()
 
     useEffect(() => {
-        console.log("contractAddress=",contractAddress)
-        if(!contractAddress){
-            return
-        }
-        const monitorValue = new EnhancedTokenMonitor(
-            contractAddress, // USDT
-            ethers.getDefaultProvider('mainnet'),
-            {
-                minAmount: '1000', // 只监听大于1000USDT的交易
-                onTransfer: (event) => {
-                    // 保存到数据库或发送通知
-                    console.log("页面监听结果 event=", event)
-                }
-            }
-        )
-        setMonitor(monitorValue)
+        // console.log("contractAddress=",contractAddress)
+        // if(!contractAddress){
+        //     return
+        // }
+        // const monitorValue = new EnhancedTokenMonitor(
+        //     contractAddress, // USDT
+        //     ethers.getDefaultProvider('mainnet'),
+        //     {
+        //         minAmount: '1000', // 只监听大于1000USDT的交易
+        //         onTransfer: (event) => {
+        //             // 保存到数据库或发送通知
+        //             console.log("页面监听结果 event=", event)
+        //         }
+        //     }
+        // )
+        // setMonitor(monitorValue)
     }, [contractAddress])
 
     /**
      * 开始监听
      */
     const startListen = () => {
+        console.log("status=", monitor?.getStatus())
+        console.log("status=", monitor?.isMonitoring)
         monitor?.start()
     }
     /**
@@ -56,11 +58,12 @@ export default function ListenEventsCard() {
                         </ExpandToggleShowContainer>
                     </div>
                     {
-                        monitor ? (
+                        monitor ? <>
                             <ExpandToggleShowContainer expand={expand}>
                                 <p>监听结果：{monitor.isMonitoring ? '正在监听' : '已停止监听'}</p>
                             </ExpandToggleShowContainer>
-                        ) : null
+                            <p className="mt-2">合约代币地址：{contractAddress}</p>
+                        </> : null
                     }
                 </>
             )
