@@ -5,7 +5,7 @@ import EthersFunctionCard from "../ethers-function-card";
 import ExpandToggleShowContainer from "@/src/components/ethers-function/expand-toggle-show-container";
 import {useSelector} from "react-redux";
 import {RootState} from "@/src/store";
-import {useEffect, useState} from "react";
+import {useEffect, useState, useSyncExternalStore} from "react";
 import PageLoading from "@/src/components/page-loading";
 
 // BigInt 序列化辅助函数
@@ -65,6 +65,7 @@ export default function ListenEventsCard() {
     const [loading, setLoading] = useState(false)
     const [listenEvent, setListenEvent] = useState<TransferEvent>()
     const [serializedEvent, setSerializedEvent] = useState<string>('{}')
+    const [isMonitoring, setIsMonitoring] = useState(false) // 监听状态
 
     useEffect(() => {
         console.log("contractAddress=",contractAddress)
@@ -96,22 +97,26 @@ export default function ListenEventsCard() {
         }
     }, [listenEvent])
 
+    useEffect(() => {
+        setIsMonitoring(monitor?.getStatus() || false)
+    }, [])
     /**
      * 开始监听
      */
-    const startListen = () => {
-        console.log("status=", monitor?.getStatus())
-        setLoading( true)
-        monitor?.start().finally(() => {
-            setLoading( false)
-        })
-    }
+    const toggleListen = () => {
+        if(isMonitoring){
+            // 停止监听
+            monitor?.stop()
+            setIsMonitoring(monitor?.getStatus() || false)
+        } else {
+            // 开始监听
+            setLoading( true)
+            monitor?.start().finally(() => {
+                setLoading( false)
+                setIsMonitoring(monitor?.getStatus() || false)
+            })
+        }
 
-    /**
-     * 停止监听
-     */
-    const stopListen = () => {
-        monitor?.stop()
     }
 
     // 格式化事件显示
@@ -135,14 +140,13 @@ export default function ListenEventsCard() {
                     <div className="mb-2 flex justify-between items-center">
                         <span className="mr-4">监听事件</span>
                         <ExpandToggleShowContainer expand={expand} className="space-x-2">
-                            <CyberButton onClick={startListen}>开始监听</CyberButton>
-                            <CyberButton onClick={stopListen}>停止监听</CyberButton>
+                            <CyberButton onClick={toggleListen}>{isMonitoring ? '停止' : '开始'}监听</CyberButton>
                         </ExpandToggleShowContainer>
                     </div>
                     {
                         monitor ? <>
                             <ExpandToggleShowContainer expand={expand}>
-                                <p>监听状态：{monitor.isMonitoring ? '正在监听' : '已停止监听'}</p>
+                                <p>监听状态：{isMonitoring ? '正在监听' : '已停止监听'}</p>
                             </ExpandToggleShowContainer>
                             <p className="mt-2">合约代币地址：{contractAddress}</p>
 
