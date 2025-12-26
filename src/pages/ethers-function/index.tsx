@@ -9,6 +9,7 @@ import {isMetaMaskInstalled} from "@/src/utils/ethers-function";
 import ListenEventsCard from "@/src/components/ethers-function/listen-events-card/listen-events-card";
 import EthersFunctionCard from "@/src/components/ethers-function/ethers-function-card";
 import ExpandToggleShowContainer from "@/src/components/ethers-function/expand-toggle-show-container";
+import NoCenterDexTokenExchange from "@/src/components/dashboard/no-center-dex-token-exchange";
 
 const loadingDefault: EtherFunctionCardLoading = {
     connectWallet: false,
@@ -154,6 +155,8 @@ export default function EthersFunction() {
                     <TokenTransferCard ethersVersion={ethersVersion}/>
                     {/*监听链上事件卡片*/}
                     <ListenEventsCard/>
+                    {/*去中心化交易所dex代币兑换*/}
+                    <NoCenterDexTokenExchange/>
                 </div>
             </div>
         </div>
