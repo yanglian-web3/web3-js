@@ -23,7 +23,6 @@ import { updateContractAddress } from "@/src/store/ethers-function";
 import Modal from '../../components/ui/cyber-modal';
 import { ethers } from "ethers";
 import { getEthersFunctions } from "@/src/lib/ethers";
-import {debugSimpleDEX} from "@/src/text-simple-dex";
 import {ERC20_HUMAN_ABI} from "@/src/constants/abis/erc20-human-readable";
 
 // SimpleDEX 配置（根据您的部署更新地址）
@@ -113,14 +112,6 @@ export default function DEXSwapCard({ ethersVersion }: DEXSwapCardProps) {
     // 可用的 DEX 列表（现在只有 SimpleDEX）
     const availableDexes = DEX_CONFIGS[chainId as keyof typeof DEX_CONFIGS]?.routers || [];
 
-    useEffect(() => {
-
-        debugSimpleDEX().then( result => {
-            console.log("调试结果:", result);
-        }).catch( error => {
-            console.error("调试失败:", error);
-        })
-    }, [])
 
     useEffect(() => {
         getSelectTokenAddressList();

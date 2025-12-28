@@ -215,41 +215,105 @@ export class EnhancedTokenMonitor {
     }
 
     /**
-     * 设置实时监听器
+     * 设置实时监听器 - 修复ethers v6事件参数问题
      */
     private async setupRealTimeListener(): Promise<void> {
-        const transferListener = async (
-            from: string,
-            to: string,
-            value: bigint,
-            event: ethers.EventLog
-        ) => {
-            await this.handleTransfer(from, to, value, event);
-        };
-
         this.debugLog("绑定实时事件监听器...");
 
         try {
-            // 创建 filter 但避免立即查询
+            // 方法1：处理完整的 ContractEventPayload
+            const transferListener = async (...args: any[]) => {
+                try {
+                    console.log('🔍 监听器收到参数:', args);
+                    console.log('参数数量:', args.length);
+                    console.log('第一个参数类型:', args[0]?.constructor?.name);
+
+                    let from: string | null = null;
+                    let to: string | null = null;
+                    let value: bigint | null = null;
+                    let eventLog: ethers.EventLog | null = null;
+
+                    // 情况1：第一个参数是 ContractEventPayload
+                    if (args[0] &&
+                        (args[0].constructor.name === 'ContractEventPayload' ||
+                            args[0].args !== undefined)) {
+                        const payload = args[0];
+
+                        // 从 payload.args 获取参数
+                        if (payload.args && Array.isArray(payload.args)) {
+                            from = payload.args[0] as string;
+                            to = payload.args[1] as string;
+                            value = payload.args[2] as bigint;
+                        } else if (payload.args && typeof payload.args === 'object') {
+                            // args 可能是对象形式
+                            from = (payload.args as any).from || (payload.args as any)[0] as string;
+                            to = (payload.args as any).to || (payload.args as any)[1] as string;
+                            value = (payload.args as any).value || (payload.args as any)[2] as bigint;
+                        }
+
+                        // 获取 EventLog
+                        if (payload.log) {
+                            eventLog = payload.log;
+                        } else if (payload.transactionHash) {
+                            // 如果是简化的 EventLog
+                            eventLog = payload as any;
+                        }
+                    }
+                    // 情况2：直接是 EventLog
+                    else if (args[0] && args[0].constructor.name === 'EventLog') {
+                        eventLog = args[0];
+                        if (eventLog.args && Array.isArray(eventLog.args)) {
+                            from = eventLog.args[0] as string;
+                            to = eventLog.args[1] as string;
+                            value = eventLog.args[2] as bigint;
+                        }
+                    }
+                    // 情况3：三个独立参数 (from, to, value, event)
+                    else if (args.length >= 3) {
+                        from = args[0] as string;
+                        to = args[1] as string;
+                        value = args[2] as bigint;
+                        eventLog = args[3] as ethers.EventLog;
+                    }
+                    console.log("验证参数之前-----------------------------")
+                    // 验证参数
+                    if (!from || !to || value === null || !eventLog) {
+                        console.warn('⚠️ 无法解析事件参数，原始参数:', args);
+                        return;
+                    }
+                    console.log("验证参数之后==============")
+                    // 确保 value 是 bigint
+                    const safeValue = typeof value === 'bigint' ? value : BigInt(value.toString());
+
+                    // 处理事件
+                    await this.handleTransfer(from, to, safeValue, eventLog);
+
+                } catch (error) {
+                    console.error('监听器回调错误:', error);
+                }
+            };
+
+            // 创建 filter
             const filter = this.contract.filters.Transfer();
 
-            // 绑定监听器，但不自动查询
+            // 绑定监听器
             this.contract.on(filter, transferListener);
 
             this.listeners.push(() => {
                 try {
                     this.contract.off(filter, transferListener);
                 } catch (e) {
-                    // 忽略取消监听时的错误
+                    console.warn('取消监听器时出错:', e);
                 }
             });
+
+            console.log("✅ 事件监听器已绑定");
 
         } catch (error) {
             console.error("绑定监听器失败:", error);
             throw error;
         }
     }
-
     /**
      * 安全查询历史事件（完全避免 fromBlock == toBlock）
      */
@@ -412,6 +476,7 @@ export class EnhancedTokenMonitor {
         try {
             // 1. 安全检查参数
             const argsValid = this.areTransferArgsValid(from, to, value);
+            console.log(`argsValid`, argsValid);
             if (!argsValid) {
                 // 安全的日志输出
                 console.warn('⚠️ 事件参数不完整');
@@ -424,22 +489,23 @@ export class EnhancedTokenMonitor {
                 });
                 return;
             }
-
+            console.log(`确保 value 是 bigint (这里 value 肯定不是 null)`);
             // 2. 确保 value 是 bigint (这里 value 肯定不是 null)
             const safeValue = value!; // 非空断言，因为上面已经检查过了
 
             // 3. 应用过滤器
             if (!this.passFilters(from!, to!, safeValue)) {
+                console.log(`应用过滤器 进入if`);
                 return;
             }
-
+            console.log(`4. 获取代币信息`);
             // 4. 获取代币信息
             const symbol = await this.getTokenSymbol();
             const decimals = this.options.decimals || await this.getTokenDecimals();
-
+            console.log(`5. 安全格式化金额`);
             // 5. 安全格式化金额
             const formattedAmount = this.formatUnitsSafely(safeValue, decimals);
-
+            console.log(`6. 输出日志`);
             // 6. 输出日志
             this.logTransfer(symbol, formattedAmount, from!, to!, event);
 
@@ -467,6 +533,7 @@ export class EnhancedTokenMonitor {
         to: string | null,
         value: bigint | null
     ): boolean {
+        console.log('areTransferArgsValid', { from, to, value });
         // 检查是否为 null/undefined
         if (from === null || from === undefined) return false;
         if (to === null || to === undefined) return false;
@@ -675,38 +742,42 @@ export class EnhancedTokenMonitor {
     }
 
     /**
-     * 修改 passFilters 方法，接受 bigint
+     * 修改 pass_Filters 方法，接受 bigint
      */
     private passFilters(from: string, to: string, value: bigint): boolean {
+        console.log('pass_Filters: from=', from, "to=", to, "value=", value);
         try {
             // 地址过滤
             if (this.options.filterFrom &&
                 this.options.filterFrom.length > 0 &&
                 !this.options.filterFrom.includes(from.toLowerCase())) {
+                console.log("pass_filters 第一个if")
                 return false;
             }
 
             if (this.options.filterTo &&
                 this.options.filterTo.length > 0 &&
                 !this.options.filterTo.includes(to.toLowerCase())) {
+                console.log("pass_filters 第3个if")
                 return false;
             }
 
             // 金额过滤
-            if (this.options.minAmount) {
-                const decimals = this.options.decimals || 18;
-                const minValue = typeof this.options.minAmount === "string"
-                    ? ethers.parseUnits(this.options.minAmount.toString(), decimals)
-                    : ethers.parseUnits(this.options.minAmount.toString(), decimals);
-
-                if (value < minValue) {
-                    return false;
-                }
-            }
+            // if (this.options.minAmount) {
+            //     const decimals = this.options.decimals || 18;
+            //     const minValue = typeof this.options.minAmount === "string"
+            //         ? ethers.parseUnits(this.options.minAmount.toString(), decimals)
+            //         : ethers.parseUnits(this.options.minAmount.toString(), decimals);
+            //
+            //     if (value < minValue) {
+            //         console.log("pass_filters 第3个if")
+            //         return false;
+            //     }
+            // }
 
             return true;
         } catch (error) {
-            console.error('passFilters 出错:', error);
+            console.error('pass_Filters 出错:', error);
             return false;
         }
     }
