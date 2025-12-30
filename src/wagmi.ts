@@ -18,25 +18,22 @@ const isDevelopment = process.env.NODE_ENV === 'development';
 type TransportsConfig = Record<number, Transport>;
 
 const getTransports = (): TransportsConfig => {
+
+  const commonHttp = {
+    [sepolia.id]: http(sepoliaNetRequestAddress),
+    [mainnet.id]: http(),
+    [polygon.id]: http(),
+    [optimism.id]: http(),
+    [arbitrum.id]: http(),
+    [base.id]: http(),
+  }
   if (isDevelopment) {
     return {
       [hardhat.id]: http(localNetRequestAddress),
-      [sepolia.id]: http(sepoliaNetRequestAddress),
-      // 为生产环境的链提供空 transport 避免类型错误
-      [mainnet.id]: http(),
-      [polygon.id]: http(),
-      [optimism.id]: http(),
-      [arbitrum.id]: http(),
-      [base.id]: http(),
+      ...commonHttp
     };
   } else {
-    return {
-      [mainnet.id]: http(),
-      [polygon.id]: http(),
-      [optimism.id]: http(),
-      [arbitrum.id]: http(),
-      [base.id]: http(),
-    };
+    return commonHttp;
   }
 };
 
